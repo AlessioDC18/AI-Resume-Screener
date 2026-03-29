@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>API Test</h2>
+<button onclick="test()">Test Evaluate</button>
+<pre id="out"></pre>
+<script>
+async function test() {
+  document.getElementById("out").textContent = "Sending...";
+  try {
+    const res = await fetch("http://localhost:3001/evaluate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: [{ role: "user", content: "Say hello in 5 words. Reply with only a JSON array: [{\"name\":\"Test\",\"score\":9,\"recommendation\":\"Shortlist\",\"strengths\":[\"a\"],\"concerns\":[\"b\"],\"summary\":\"test\",\"email\":\"test@test.com\"}]" }]
+      })
+    });
+    const data = await res.json();
+    document.getElementById("out").textContent = JSON.stringify(data, null, 2);
+  } catch(e) {
+    document.getElementById("out").textContent = "Error: " + e.message;
+  }
+}
+</script>
+</body>
+</html>
+
